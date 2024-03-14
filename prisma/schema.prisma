@@ -1,0 +1,74 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlserver"
+  url      = env("DATABASE_URL")
+}
+
+
+
+model stkUsuarioTracking{
+  id Int @default(autoincrement()) @id
+  cedula String @db.NVarChar(50) @unique
+  primerNombre String @db.NVarChar(50)
+  segundoNombre String @db.NVarChar(50)
+  primerApellido String @db.NVarChar(50)
+  segundoApellido String @db.NVarChar(50)
+  email String @db.NVarChar(50)
+  clave String @db.NVarChar(100)
+  objSucursal stkSucursal? @relation(fields: [objSucursalId], references: [id])
+  objSucursalId Int?
+  activo Boolean @db.Bit
+  fechaCreacion DateTime? @db.DateTime @default(now())
+  empresasCreadas stkEmpresa[]
+  dispositivosCreados stkDispositivo[] 
+  relacionUsuariosDispositivos stkUsuarioDispositivo[]
+}
+
+model stkEmpresa{
+  id Int @default(autoincrement()) @id
+  codigo String @db.NVarChar(100)
+  nombre String @db.NVarChar(100)
+  descripcion String @db.NVarChar(150)
+  activo Boolean @db.Bit
+  fechaCreacion DateTime @db.DateTime
+  objUsuarioCreacion stkUsuarioTracking @relation(fields:[objUsuarioCreacionId], references: [id])
+  objUsuarioCreacionId Int
+  sucursales stkSucursal[]
+}
+
+model stkSucursal{
+  id Int @default(autoincrement()) @id
+  nombre String @db.NVarChar(100)
+  objEmpresa stkEmpresa @relation(fields: [objEmpresaId], references: [id], onUpdate: NoAction)
+  objEmpresaId Int
+  fechaCreacion DateTime @db.DateTime
+  usuariosAsociados stkUsuarioTracking[]
+}
+
+model stkDispositivo{
+  id Int @default(autoincrement()) @id
+  imei String @db.NVarChar(50)
+  activo Boolean @db.Bit
+  fechaCreacion DateTime @db.DateTime
+  objUsuarioCreacion stkUsuarioTracking @relation(fields:[objUsuarioCreacionId], references: [id])
+  objUsuarioCreacionId Int
+  relacionUsuariosDispositivos stkUsuarioDispositivo[]
+}
+
+model stkUsuarioDispositivo{
+  id Int @default(autoincrement()) @id
+  objDispositivo stkDispositivo @relation(fields: [objDispositivoId], references: [id], onUpdate: NoAction)
+  objDispositivoId Int
+  objUsuarioTracking stkUsuarioTracking @relation(fields: [objUsuarioTrackingId], references: [id])
+  objUsuarioTrackingId Int
+  activo Boolean @db.Bit
+  fechaCreacion DateTime @db.DateTime
+}
+
+
+
+
+

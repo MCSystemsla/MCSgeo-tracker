@@ -1,0 +1,19 @@
+BEGIN TRY
+
+BEGIN TRAN;
+
+-- AlterTable
+ALTER TABLE [dbo].[stkUsuarioTracking] ADD CONSTRAINT [stkUsuarioTracking_fechaCreacion_df] DEFAULT CURRENT_TIMESTAMP FOR [fechaCreacion];
+
+COMMIT TRAN;
+
+END TRY
+BEGIN CATCH
+
+IF @@TRANCOUNT > 0
+BEGIN
+    ROLLBACK TRAN;
+END;
+THROW
+
+END CATCH
