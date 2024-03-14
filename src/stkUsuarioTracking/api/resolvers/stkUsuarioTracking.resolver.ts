@@ -4,7 +4,8 @@ import {
   UpdateStkUsuarioTrackingInput,
   createStkUsuarioTrackingInput,
   deleteStkUsuariosTrackingInput,
-  getStkUsuariosTrackingInput,
+  getStkUsuarioTrackingInput,
+  getMultiplesStkUsuariosTrackingInput,
 } from '../models/createStkUsuarioTracking.input';
 import {
   stkUsuarioTrackingPayloadType,
@@ -17,8 +18,12 @@ export class stkUsuarioTrackingResolver {
   constructor(private stkUsuarioTrackingService: stkUsuarioTrackingService) {}
 
   @Query((returns) => stkUsuariosTrackingPayloadType)
-  async getUsersTracking(@Args('input') input: getStkUsuariosTrackingInput) {
-    return this.stkUsuarioTrackingService.solicitarUsuarioTracking(input);
+  async getUsersTracking(
+    @Args('input') input: getMultiplesStkUsuariosTrackingInput,
+  ) {
+    return this.stkUsuarioTrackingService.solicitarMultiplesUsuarioTracking(
+      input,
+    );
   }
   @Mutation((returns) => stkUsuarioTrackingPayloadType)
   async createUserTracking(

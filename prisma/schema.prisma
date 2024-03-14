@@ -16,7 +16,7 @@ model stkUsuarioTracking{
   segundoNombre String @db.NVarChar(50)
   primerApellido String @db.NVarChar(50)
   segundoApellido String @db.NVarChar(50)
-  email String @db.NVarChar(50)
+  email String @db.NVarChar(50) @unique
   clave String @db.NVarChar(100)
   objSucursal stkSucursal? @relation(fields: [objSucursalId], references: [id])
   objSucursalId Int?

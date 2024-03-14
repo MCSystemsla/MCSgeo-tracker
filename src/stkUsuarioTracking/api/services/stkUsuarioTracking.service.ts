@@ -4,7 +4,8 @@ import {
   UpdateStkUsuarioTrackingInput,
   createStkUsuarioTrackingInput,
   deleteStkUsuariosTrackingInput,
-  getStkUsuariosTrackingInput,
+  getStkUsuarioTrackingInput,
+  getMultiplesStkUsuariosTrackingInput,
 } from '../models/createStkUsuarioTracking.input';
 
 @Injectable()
@@ -48,7 +49,30 @@ export class stkUsuarioTrackingService {
     return nuevoUsuarioTracking;
   }
 
-  async solicitarUsuarioTracking(input: getStkUsuariosTrackingInput) {
+  async solicitarUsuarioTracking(input: getStkUsuarioTrackingInput) {
+    let searchById = { id: input.id };
+    let searchByEmail = { email: input.email };
+    let searchArgument = input.id ? searchById : searchByEmail;
+
+    const usuarioTracking = await this.prisma.stkUsuarioTracking.findUnique({
+      where: {
+        ...searchArgument,
+      },
+    });
+
+    if (!usuarioTracking) {
+      return {
+        errorName: 'Error Usuario',
+        message: 'El Usuario Solicitado no existe',
+      };
+    }
+
+    return usuarioTracking;
+  }
+
+  async solicitarMultiplesUsuarioTracking(
+    input: getMultiplesStkUsuariosTrackingInput,
+  ) {
     let searchById = { id: { in: input.usuarios } };
     let searchByEmail = { email: { in: input.emails } };
     let searchArgument = input.usuarios ? searchById : searchByEmail;

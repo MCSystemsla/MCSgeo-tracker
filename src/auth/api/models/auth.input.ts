@@ -1,10 +1,10 @@
 import { Field, InputType } from '@nestjs/graphql';
-import { getStkUsuariosTrackingInput } from 'src/stkUsuarioTracking/api/models/createStkUsuarioTracking.input';
+import { getStkUsuarioTrackingInput } from 'src/stkUsuarioTracking/api/models/createStkUsuarioTracking.input';
 
 @InputType()
 export class LoginInput {
   @Field()
-  usuario: getStkUsuariosTrackingInput;
+  usuario: getStkUsuarioTrackingInput;
 
   @Field()
   clave: string;

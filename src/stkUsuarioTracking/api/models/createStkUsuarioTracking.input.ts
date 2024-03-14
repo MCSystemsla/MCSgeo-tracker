@@ -1,4 +1,5 @@
 import { Field, InputType, Int, PartialType } from '@nestjs/graphql';
+import exp from 'constants';
 
 @InputType()
 export class createStkUsuarioTrackingInput {
@@ -39,12 +40,21 @@ export class UpdateStkUsuarioTrackingInput extends PartialType(
 }
 
 @InputType()
-export class getStkUsuariosTrackingInput {
+export class getMultiplesStkUsuariosTrackingInput {
   @Field((type) => [Int], { nullable: true })
   usuarios?: number[];
 
   @Field((type) => [String], { nullable: true })
   emails?: string[];
+}
+
+@InputType()
+export class getStkUsuarioTrackingInput {
+  @Field((type) => Int)
+  id?: number;
+
+  @Field((type) => String)
+  email?: string;
 }
 
 @InputType()
