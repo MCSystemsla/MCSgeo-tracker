@@ -6,11 +6,25 @@ import { Injectable } from '@nestjs/common';
 export class AuthService {
   constructor(private stkUsuarioTrackingService: stkUsuarioTrackingService) {}
 
-  async signIn(input: LoginInput) {
+  async login(input: LoginInput) {
     console.log(input.clave);
-    const usuarios =
+    const usuario =
       await this.stkUsuarioTrackingService.solicitarUsuarioTracking(
         input.usuario,
       );
+
+    if ('errorName' in usuario) {
+      return 'error llamando al usuario';
+    }
+
+    if (usuario.clave == input.clave) {
+      console.log('login exitoso');
+      return 'Login exitoso';
+    } else {
+      console.log('login fallido');
+    }
+
+    console.log(usuario);
+    return 'Hello World!';
   }
 }

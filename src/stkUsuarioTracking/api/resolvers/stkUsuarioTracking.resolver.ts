@@ -18,13 +18,19 @@ export class stkUsuarioTrackingResolver {
   constructor(private stkUsuarioTrackingService: stkUsuarioTrackingService) {}
 
   @Query((returns) => stkUsuariosTrackingPayloadType)
-  async getUsersTracking(
+  async getMultipleUsersTracking(
     @Args('input') input: getMultiplesStkUsuariosTrackingInput,
   ) {
     return this.stkUsuarioTrackingService.solicitarMultiplesUsuarioTracking(
       input,
     );
   }
+
+  @Query((returns) => stkUsuarioTrackingPayloadType)
+  async getUserTracking(@Args('input') input: getStkUsuarioTrackingInput) {
+    return this.stkUsuarioTrackingService.solicitarUsuarioTracking(input);
+  }
+
   @Mutation((returns) => stkUsuarioTrackingPayloadType)
   async createUserTracking(
     @Args('input') input: createStkUsuarioTrackingInput,

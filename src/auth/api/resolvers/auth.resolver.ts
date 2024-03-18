@@ -8,6 +8,6 @@ export class AuthResolver {
 
   @Query((returns) => String)
   async login(@Args('input') input: LoginInput) {
-    return this.authService.signIn(input);
+    return this.authService.login(input);
   }
 }

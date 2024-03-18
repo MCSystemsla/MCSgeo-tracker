@@ -7,24 +7,41 @@ import {
   getStkUsuarioTrackingInput,
   getMultiplesStkUsuariosTrackingInput,
 } from '../models/createStkUsuarioTracking.input';
+const bcrypt = require('bcrypt');
 
 @Injectable()
 export class stkUsuarioTrackingService {
   constructor(private prisma: PrismaService) {}
 
   async crearUsuarioTracking(input: createStkUsuarioTrackingInput) {
+    const saltRounds = 10;
+
     const usuarioTrackingExiste =
-      await this.prisma.stkUsuarioTracking.findUnique({
+      await this.prisma.stkUsuarioTracking.findFirst({
         where: {
-          cedula: input.cedula,
+          OR: [
+            {
+              cedula: input.cedula,
+            },
+            {
+              email: input.email,
+            },
+          ],
         },
       });
 
     if (usuarioTrackingExiste) {
-      return {
-        errorName: 'Error Usuario',
-        message: 'La cedula ingresada ya perteneces a otro usuario.',
-      };
+      if (usuarioTrackingExiste.cedula === input.cedula) {
+        return {
+          errorName: 'Error Usuario',
+          message: 'La cedula ingresada ya pertenece a otro usuario.',
+        };
+      } else if (usuarioTrackingExiste.email === input.email) {
+        return {
+          errorName: 'Error Usuario',
+          message: 'El email ingresado ya pertenece a otro usuario.',
+        };
+      }
     }
     if (input.objSucursalId) {
       const sucursalExiste = await this.prisma.stkSucursal.findUnique({
@@ -39,19 +56,23 @@ export class stkUsuarioTrackingService {
         };
     }
 
+    const hash = bcrypt.hashSync(input.clave, saltRounds);
+
     const nuevoUsuarioTracking = await this.prisma.stkUsuarioTracking.create({
       data: {
         ...input,
         fechaCreacion: new Date().toISOString(),
+        clave: hash,
       },
     });
+    console.log(nuevoUsuarioTracking);
 
     return nuevoUsuarioTracking;
   }
 
   async solicitarUsuarioTracking(input: getStkUsuarioTrackingInput) {
-    let searchById = { id: input.id };
-    let searchByEmail = { email: input.email };
+    let searchById = { id: input.id ? input.id : 0 };
+    let searchByEmail = { email: input.email ? input.email : '' };
     let searchArgument = input.id ? searchById : searchByEmail;
 
     const usuarioTracking = await this.prisma.stkUsuarioTracking.findUnique({

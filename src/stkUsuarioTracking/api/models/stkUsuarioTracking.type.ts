@@ -24,6 +24,9 @@ export class stkUsuarioTrackingType {
   @Field()
   email: string;
 
+  @Field()
+  clave: string;
+
   @Field((type) => Int, { nullable: true })
   objSucursalId?: number;
 

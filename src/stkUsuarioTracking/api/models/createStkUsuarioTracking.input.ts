@@ -50,10 +50,10 @@ export class getMultiplesStkUsuariosTrackingInput {
 
 @InputType()
 export class getStkUsuarioTrackingInput {
-  @Field((type) => Int)
+  @Field((type) => Int, { nullable: true })
   id?: number;
 
-  @Field((type) => String)
+  @Field((type) => String, { nullable: true })
   email?: string;
 }
 
