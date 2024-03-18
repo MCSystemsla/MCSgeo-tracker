@@ -12,6 +12,8 @@ import {
   stkUsuarioTrackingType,
   stkUsuariosTrackingPayloadType,
 } from '../models/stkUsuarioTracking.type';
+import { UseGuards } from '@nestjs/common';
+import { JwtAuthGuard } from 'src/auth/api/guards/jwt.guard';
 
 @Resolver()
 export class stkUsuarioTrackingResolver {
@@ -25,7 +27,7 @@ export class stkUsuarioTrackingResolver {
       input,
     );
   }
-
+  @UseGuards(JwtAuthGuard)
   @Query((returns) => stkUsuarioTrackingPayloadType)
   async getUserTracking(@Args('input') input: getStkUsuarioTrackingInput) {
     return this.stkUsuarioTrackingService.solicitarUsuarioTracking(input);
