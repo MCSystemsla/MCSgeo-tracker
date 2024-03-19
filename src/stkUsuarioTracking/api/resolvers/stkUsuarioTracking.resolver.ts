@@ -6,7 +6,7 @@ import {
   deleteStkUsuariosTrackingInput,
   getStkUsuarioTrackingInput,
   getMultiplesStkUsuariosTrackingInput,
-} from '../models/createStkUsuarioTracking.input';
+} from '../models/stkUsuarioTracking.input';
 import {
   stkUsuarioTrackingPayloadType,
   stkUsuarioTrackingType,

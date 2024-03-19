@@ -6,7 +6,7 @@ import {
   deleteStkUsuariosTrackingInput,
   getStkUsuarioTrackingInput,
   getMultiplesStkUsuariosTrackingInput,
-} from '../models/createStkUsuarioTracking.input';
+} from '../models/stkUsuarioTracking.input';
 const bcrypt = require('bcrypt');
 
 @Injectable()
@@ -65,7 +65,6 @@ export class stkUsuarioTrackingService {
         clave: hash,
       },
     });
-    console.log(nuevoUsuarioTracking);
 
     return nuevoUsuarioTracking;
   }
@@ -84,7 +83,7 @@ export class stkUsuarioTrackingService {
     if (!usuarioTracking) {
       return {
         errorName: 'Error Usuario',
-        message: 'El Usuario Solicitado no existe',
+        message: 'El usuario solicitado no existe',
       };
     }
 
@@ -148,6 +147,19 @@ export class stkUsuarioTrackingService {
   }
 
   async eliminarUsuarioTracking(input: deleteStkUsuariosTrackingInput) {
+    const usuarioTrackingExiste =
+      await this.prisma.stkUsuarioTracking.findUnique({
+        where: {
+          id: input.id,
+        },
+      });
+
+    if (!usuarioTrackingExiste)
+      return {
+        errorName: 'Error Usuario',
+        message: 'El usuario no existe',
+      };
+
     const usuarioEliminado = await this.prisma.stkUsuarioTracking.delete({
       where: {
         id: input.id,

@@ -1,5 +1,4 @@
 import { Field, InputType, Int, PartialType } from '@nestjs/graphql';
-import exp from 'constants';
 
 @InputType()
 export class createStkUsuarioTrackingInput {

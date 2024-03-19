@@ -29,13 +29,13 @@ model stkUsuarioTracking{
 
 model stkEmpresa{
   id Int @default(autoincrement()) @id
-  codigo String @db.NVarChar(100)
+  codigo String @db.NVarChar(100) @unique
   nombre String @db.NVarChar(100)
   descripcion String @db.NVarChar(150)
   activo Boolean @db.Bit
   fechaCreacion DateTime @db.DateTime
-  objUsuarioCreacion stkUsuarioTracking @relation(fields:[objUsuarioCreacionId], references: [id])
-  objUsuarioCreacionId Int
+  objUsuarioCreacion stkUsuarioTracking? @relation(fields:[objUsuarioCreacionId], references: [id])
+  objUsuarioCreacionId Int?
   sucursales stkSucursal[]
 }
 

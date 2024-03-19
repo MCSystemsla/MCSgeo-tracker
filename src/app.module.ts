@@ -7,6 +7,7 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { stkUsuarioTrackingResolver } from './stkUsuarioTracking/api/resolvers/stkUsuarioTracking.resolver';
 import { stkUsuarioTrackingModule } from './stkUsuarioTracking/stkUsarioTracking.module';
 import { authModule } from './auth/api/auth.module';
+import { stkEmpresaModule } from './stkEmpresa/stkEmpresa.module';
 
 @Global()
 @Module({
@@ -18,6 +19,7 @@ import { authModule } from './auth/api/auth.module';
     }),
     stkUsuarioTrackingModule,
     authModule,
+    stkEmpresaModule,
   ],
   controllers: [AppController],
   providers: [AppService, PrismaService],
